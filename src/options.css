@@ -1,0 +1,86 @@
+@font-face {
+	font-family: 'optionsFont';
+	font-style: normal;
+	font-weight: 700;
+	src: url('chrome-extension://__MSG_@@extension_id__/assets/Roboto-Regular.ttf'); 
+   }
+
+html {
+	box-sizing: border-box;
+	font-size: 100%;
+}
+
+.options-wrapper {
+	width: 500px;
+	margin: 20px auto;
+
+}
+
+.logo-wrapper {
+	background: #152035;
+	text-align: center;
+}
+
+.logo-wrapper img {
+	width: 80%;
+}
+
+.options-body {
+	background: #efefef;
+	padding: 1rem;
+}
+
+h1{
+  font-size: 1.5em;
+  font-family: 'optionsFont';
+}
+
+form {
+	font-size: 1em;
+	font-family: 'optionsFont';
+}
+
+input {
+	border: 1px solid #efefef;
+}
+
+input:hover, input:focus{
+  border: 1px solid #369;
+}
+
+.labelled-field {
+	margin: 1em 0 1em 0;
+	font-size:1.1em;
+}
+
+.labelled-field label {
+	margin-bottom: .5em;
+}
+
+.labelled-field input {
+	font-size: 1em;
+	width: 60%;
+}
+
+.block-input input{
+  display: block;
+}
+
+input[type="checkbox"]{
+  height: 1em;
+  width: 1em;
+}
+
+button {
+	background: #337ab7;
+	color: #fff;
+	cursor: pointer;
+	font-family: 'optionsFont';
+	border: none;
+    padding: .5rem 1rem;
+    text-transform: uppercase;
+}
+
+button:hover {
+	background:#286090;
+}

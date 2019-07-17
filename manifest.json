@@ -29,5 +29,10 @@
     "js": ["check.js"]
   }],
 
-  "options_page": "options.html"
+  "options_page": "options.html",
+
+  "web_accessible_resources": [
+    "options.css",
+    "assets/Roboto-Regular.ttf"
+  ]
 }

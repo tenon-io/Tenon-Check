@@ -2,68 +2,36 @@
 <html lang="en">
     <head>
         <script src="options.js"></script>
-        <style>
-            html {
-                box-sizing: border-box;
-                font-family: Helvetica, Verdana, 'serif';
-                font-size: 100%;
-            }
-
-            h1{
-              font-size: 1.5em;
-            }
-
-            form {
-                font-size: 1em;
-            }
-
-            input:hover, input:focus{
-              border: 1px solid #369;
-            }
-
-            .labelled-field {
-                margin: 1em 0 1em 1em;
-            }
-
-            .labelled-field label {
-                margin-bottom: .5em;
-            }
-
-            .labelled-field input {
-                font-size: 1em;
-            }
-
-            .block-input input{
-              display: block;
-            }
-
-            input[type="checkbox"]{
-              height: 1em;
-              width: 1em;
-            }
-        </style>
+        <link href="options.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <h1>Tenon-Check settings</h1>
+      <div class="options-wrapper">
+        <div class="logo-wrapper">
+          <img src="../assets/tenon-logo.png"/>
+        </div>
+        <div class="options-body">
+          <h1>Tenon-Check settings</h1>
 
-        <form id="tenon-check-options" method="post">
-
-          <div class="labelled-field block-input">
-              <label for="instanceUrl">Tenon Instance URL</label>
-              <input type="url" id="instanceUrl" name="instanceUrl">
-          </div>
+          <form id="tenon-check-options" method="post">
 
             <div class="labelled-field block-input">
-                <label for="apiKey">API key</label>
-                <input type="text" id="apiKey" name="apiKey">
+                <label for="instanceUrl">Tenon Instance URL</label>
+                <input type="url" id="instanceUrl" name="instanceUrl">
             </div>
 
-            <div class="labelled-field">
-              <input type="checkbox" id="inline" name="inline">
-              <label for="inline">Inline unreachable assets?</label>
-            </div>
+              <div class="labelled-field block-input">
+                  <label for="apiKey">API key</label>
+                  <input type="text" id="apiKey" name="apiKey">
+              </div>
 
-            <button type="button">Save settings</button>
-        </form>
+              <div class="labelled-field">
+                <input type="checkbox" id="inline" name="inline">
+                <label for="inline">Inline unreachable assets?</label>
+              </div>
+
+              <button type="button">Save settings</button>
+          </form>
+        </div>
+      </div>
     </body>
 </html>

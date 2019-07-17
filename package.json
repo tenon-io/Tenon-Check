@@ -1,10 +1,10 @@
 {
   "name": "@tenon-io/tenon-check",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A Tenon browser extension",
   "main": "background.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,10 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify": "^4.0.1",
     "grunt-eslint": "^21.0.0",
-    "load-grunt-tasks": "^4.0.0"
+    "grunt-run": "^0.8.1",
+    "jest": "^24.8.0",
+    "load-grunt-tasks": "^4.0.0",
+    "sinon": "^7.3.2",
+    "sinon-chrome": "^3.0.1"
   }
 }
