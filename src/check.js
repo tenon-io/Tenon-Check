@@ -365,20 +365,17 @@ const inline = selector => {
             const base64Promises = Object.keys(matches).map(matchUrl => {
                 const path = toFullPath(matchUrl);
 
-                const inline = absoluteUrl => () => {
-                    return fetchAssetAsDataURL(absoluteUrl)
-                        .then(dataURL => {
-                            while (css.indexOf(matchUrl) > -1) {
-                                css = css.replace(matchUrl, dataURL);
-                            }
-                            return css;
-                        })
-                        .catch(e =>
-                            console.error(
-                                "Tenon-Check: Error inlining image url",
-                                e
-                            )
-                        );
+                const inline = absoluteUrl => async () => {
+                    try {
+                        const dataURL = await fetchAssetAsDataURL(absoluteUrl);
+                        while (css.indexOf(matchUrl) > -1) {
+                            css = css.replace(matchUrl, dataURL);
+                        }
+                        return css;
+                    }
+                    catch (e) {
+                        return console.error("Tenon-Check: Error inlining image url", e);
+                    }
                 };
                 const skip = () => css;
 
