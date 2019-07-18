@@ -22,7 +22,7 @@ const setupForm = () => {
 
     chrome.storage.sync.get(null, function (settings) {
         settings.maxSourceLength = MAX_SOURCE_LENGTH;
-        settings.instanceUrl !== undefined ? document.querySelector('#instanceUrl').value = settings.instanceUrl :  document.querySelector('#instanceUrl').value = 'https://www.tenon.io';
+        settings.instanceUrl !== undefined ? document.querySelector('#instanceUrl').value = settings.instanceUrl :  document.querySelector('#instanceUrl').value = 'https://tenon.io';
 
         if (settings.apiKey !== undefined) {
             document.querySelector('#apiKey').value = settings.apiKey;
