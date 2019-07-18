@@ -4,10 +4,7 @@ const saveSettings = () => {
     let apiKey = document.querySelector('#apiKey').value;
     let inline = document.querySelector('#inline').checked;
 
-    if (apiKey === undefined || apiKey === '') {
-        alert("You must enter an API Key");
-        return false;
-    } else {
+    if (apiKey !== undefined) {
         settings.apiKey = apiKey;
     }
 
@@ -34,7 +31,7 @@ const setupForm = () => {
         document.querySelector('#inline').checked = !!settings.inline;
     });
 
-    document.querySelector('button').addEventListener('click', saveSettings);
+    document.querySelector('#tenon-check-options').addEventListener('submit', saveSettings);
 }
 
 document.addEventListener('DOMContentLoaded', setupForm);

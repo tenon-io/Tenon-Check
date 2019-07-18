@@ -40,7 +40,7 @@ form {
 	font-family: 'optionsFont';
 }
 
-input {
+input:not([type="submit"]) {
 	border: 1px solid #efefef;
 }
 
@@ -71,7 +71,7 @@ input[type="checkbox"]{
   width: 1em;
 }
 
-button {
+.save-settings {
 	background: #337ab7;
 	color: #fff;
 	cursor: pointer;
@@ -81,6 +81,7 @@ button {
     text-transform: uppercase;
 }
 
-button:hover {
+.save-settings:hover {
 	background:#286090;
+	border: none;
 }
