@@ -380,7 +380,7 @@ const inline = selector => {
                             )
                         );
                 };
-                
+
                 const skip = () => css;
 
                 return pingTenon(path, "check").then(
@@ -630,7 +630,7 @@ chrome.runtime.onMessage.addListener((request, sender) => {
 
     if (request.message && request.message === "TEST_SOURCE") {
         if (!Object.keys(request.settings).length) {
-            alert("Tenon-Check: The extension is not properly configured.");
+            alert("Tenon-Check: The extension is not properly configured. Please visit extension options page to enter configuration details.");
             return;
         }
         getSource("html", request.settings.inline)
