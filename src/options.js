@@ -4,7 +4,10 @@ const saveSettings = () => {
     let apiKey = document.querySelector('#apiKey').value;
     let inline = document.querySelector('#inline').checked;
 
-    if (apiKey !== undefined) {
+    if (apiKey === undefined || apiKey === '') {
+        alert("You must enter an API Key");
+        return false;
+    } else {
         settings.apiKey = apiKey;
     }
 
@@ -14,9 +17,9 @@ const saveSettings = () => {
 
     chrome.storage.sync.set(settings, function () {
         console.debug('Tenon-Check: settings saved');
+        alert("Your settings have been saved.")
     });
 }
-
 const setupForm = () => {
     const MAX_SOURCE_LENGTH = 120000;
 
