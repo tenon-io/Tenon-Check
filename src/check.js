@@ -602,10 +602,10 @@ const testSource = settings => {
 };
 
 const showResults = testResults => {
-    console.log("Sending to results page")
     try {
         const results = JSON.parse(testResults);
         if (results.resultUrl) {
+            console.log("Redirecting to results page: ", results.resultUrl);
             document.location.href = results.resultUrl;
         }
     } catch (e) {
