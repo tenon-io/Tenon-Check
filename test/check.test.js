@@ -24,7 +24,7 @@ describe('check.js', function () {
 	
 	test("should not proceed if settings are empty", () => {
 		chrome.runtime.onMessage.trigger({message: "TEST_SOURCE", settings: {}}, {id: "abcdef"});
-		expect(alertSpy).toHaveBeenCalledWith('Tenon-Check: The extension is not properly configured.');
+		expect(alertSpy).toHaveBeenCalledWith('Tenon-Check: The extension is not properly configured. Please visit extension options page to enter configuration details.');
 		window.alert.mockClear();
 	});
 

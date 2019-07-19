@@ -14,9 +14,9 @@ const saveSettings = () => {
 
     chrome.storage.sync.set(settings, function () {
         console.debug('Tenon-Check: settings saved');
+        alert("Your settings have been saved.")
     });
 }
-
 const setupForm = () => {
     const MAX_SOURCE_LENGTH = 120000;
 
@@ -31,7 +31,7 @@ const setupForm = () => {
         document.querySelector('#inline').checked = !!settings.inline;
     });
 
-    document.querySelector('button').addEventListener('click', saveSettings);
+    document.querySelector('#tenon-check-options').addEventListener('submit', saveSettings);
 }
 
 document.addEventListener('DOMContentLoaded', setupForm);
