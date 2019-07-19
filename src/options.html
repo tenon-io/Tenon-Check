@@ -16,12 +16,12 @@
 
             <div class="labelled-field block-input">
                 <label for="instanceUrl">Tenon Instance URL</label>
-                <input type="url" id="instanceUrl" name="instanceUrl">
+                <input required type="url" id="instanceUrl" name="instanceUrl">
             </div>
 
               <div class="labelled-field block-input">
                   <label for="apiKey">API key</label>
-                  <input type="text" id="apiKey" name="apiKey">
+                  <input required type="text" id="apiKey" name="apiKey">
               </div>
 
               <div class="labelled-field">
@@ -29,7 +29,7 @@
                 <label for="inline">Inline unreachable assets?</label>
               </div>
 
-              <button type="button">Save settings</button>
+              <input class="save-settings" type="submit" value="Save settings">
           </form>
         </div>
       </div>

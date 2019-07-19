@@ -380,6 +380,7 @@ const inline = selector => {
                             )
                         );
                 };
+
                 const skip = () => css;
 
                 return pingTenon(path, "check").then(
@@ -466,6 +467,7 @@ const inline = selector => {
 
         const mappers = [
             buildMapper("img[src]", node => {
+                console.log("inlining image", node.src);
                 if (node.src.match(/^data:/)) {
                     return Promise.resolve(node);
                 }
@@ -487,6 +489,7 @@ const inline = selector => {
             }),
 
             buildMapper("script[src]", node => {
+                console.log("inlining script", node.src);
                 const path = toFullPath(node.src);
 
                 const inline = url => () => {
@@ -507,6 +510,7 @@ const inline = selector => {
 
 
             buildMapper('link[rel="stylesheet"]', node => {
+                console.log("inlining stylesheet", node.href);
                 const path = toFullPath(node.href);
 
                 const inline = url => () => {
@@ -530,6 +534,7 @@ const inline = selector => {
             }),
 
             buildMapper("style", node => {
+                console.log("inlining style", node);
                 return inlineImportUrls(node.textContent)
                     .then(inlineImageUrls)
                     .then(content => (node.textContent = content))
@@ -572,6 +577,7 @@ const request = (apiKey, apiUrl, pageSource, onSuccess, onError) => {
 };
 
 const testSource = settings => {
+    console.log("Testing Source");
     return source => {
         if (source.length > settings.maxSourceLength) {
             return Promise.reject("Document source too large");
@@ -595,6 +601,7 @@ const testSource = settings => {
 };
 
 const showResults = testResults => {
+    console.log("Sending to results page")
     try {
         const results = JSON.parse(testResults);
         if (results.resultUrl) {
@@ -606,6 +613,7 @@ const showResults = testResults => {
 };
 
 const getSource = (selector, inlineAssets) => {
+    console.log("retrieving DOM");
     const getDom = selector => {
         const dom = document.querySelectorAll(selector);
         let html = "";
@@ -629,7 +637,7 @@ chrome.runtime.onMessage.addListener((request, sender) => {
 
     if (request.message && request.message === "TEST_SOURCE") {
         if (!Object.keys(request.settings).length) {
-            alert("Tenon-Check: The extension is not properly configured.");
+            alert("Tenon-Check: The extension is not properly configured. Please visit extension options page to enter configuration details.");
             return;
         }
         getSource("html", request.settings.inline)
