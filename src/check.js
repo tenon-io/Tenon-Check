@@ -123,6 +123,7 @@ const inline = selector => {
         let self = this;
 
         const success = data => {
+            console.log('CHECK PING', data);
             let results = {};
 
             Object.keys(data).forEach(url => {
@@ -253,7 +254,6 @@ const inline = selector => {
                 }
 
                 request.timeout = config.REQUEST_TIMEOUT || 2000;
-
                 const onTimeout = () => {
                     console.error(
                         "Tenon-Check: Request to " +
@@ -273,6 +273,8 @@ const inline = selector => {
                     if (!request_done) {
                         return;
                     }
+
+                    console.log('HTTP Status code was', request.status);
 
                     if (http_ok) {
                         if (
@@ -382,7 +384,6 @@ const inline = selector => {
                 };
 
                 const skip = () => css;
-
                 return pingTenon(path, "check").then(
                     either(inline(path), skip)
                 );
@@ -641,6 +642,7 @@ chrome.runtime.onMessage.addListener((request, sender) => {
     }
 
     if (request.message && request.message === "TEST_SOURCE") {
+        console.log("Current page ", document.URL);
         getSource("html", request.settings.inline)
             .then(testSource(request.settings))
             .then(showResults)
