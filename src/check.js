@@ -123,7 +123,6 @@ const inline = selector => {
         let self = this;
 
         const success = data => {
-            console.log('CHECK PING', data);
             let results = {};
 
             Object.keys(data).forEach(url => {
@@ -551,7 +550,7 @@ const inline = selector => {
     };
 
     return inlineService(
-        new PingService("https://demo.tenon.io/api/ping.php", {}),
+        new PingService(window.instanceUrl + "/api/ping.php", {}),
         {}
     )(selector);
 };
@@ -640,6 +639,8 @@ chrome.runtime.onMessage.addListener((request, sender) => {
         alert("Tenon-Check: The extension is not properly configured. Please visit extension options page to enter configuration details.");
         return;
     }
+
+    window.instanceUrl = request.settings.instanceUrl
 
     if (request.message && request.message === "TEST_SOURCE") {
         console.log("Current page ", document.URL);
