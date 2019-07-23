@@ -253,7 +253,6 @@ const inline = selector => {
                 }
 
                 request.timeout = config.REQUEST_TIMEOUT || 2000;
-
                 const onTimeout = () => {
                     console.error(
                         "Tenon-Check: Request to " +
@@ -273,6 +272,8 @@ const inline = selector => {
                     if (!request_done) {
                         return;
                     }
+
+                    console.log('HTTP Status code was', request.status);
 
                     if (http_ok) {
                         if (
@@ -382,7 +383,6 @@ const inline = selector => {
                 };
 
                 const skip = () => css;
-
                 return pingTenon(path, "check").then(
                     either(inline(path), skip)
                 );
@@ -550,12 +550,12 @@ const inline = selector => {
     };
 
     return inlineService(
-        new PingService("https://demo.tenon.io/api/ping.php", {}),
+        new PingService(window.instanceUrl + "/api/ping.php", {}),
         {}
     )(selector);
 };
 
-const request = (apiKey, apiUrl, pageSource, onSuccess, onError) => {
+const request = (apiKey, apiUrl, pageSource, pageUrl, onSuccess, onError) => {
     const r = new XMLHttpRequest();
 
     r.onload = function() {
@@ -569,7 +569,7 @@ const request = (apiKey, apiUrl, pageSource, onSuccess, onError) => {
     const formData = new FormData();
 
     formData.append("key", apiKey);
-    formData.append("src", pageSource);
+    pageUrl !== null ? formData.append("url", pageUrl) : formData.append("src", pageSource);
     formData.append("fragment", 0);
     r.open("POST", apiUrl);
 
@@ -595,16 +595,36 @@ const testSource = settings => {
         };
 
         return new Promise((resolve, reject) => {
-            request(settings.apiKey, api, source, resolve, apiFailure(reject));
+            request(settings.apiKey, api, source, null, resolve, apiFailure(reject));
         });
     };
 };
 
+const testURL = settings => {
+    console.log("Testing URL ", document.URL);
+
+    const api = settings.instanceUrl + "/api/index.php";
+
+    const apiFailure = reject => apiResponse => {
+        try {
+            const response = JSON.parse(apiResponse);
+            reject(`${response.message}. (${response.info})`);
+        } catch (e) {
+            reject("Unexpected Tenon API response");
+        }
+    };
+
+    return new Promise((resolve, reject) => {
+        request(settings.apiKey, api, null, document.URL, resolve, apiFailure(reject));
+    });
+
+}
+
 const showResults = testResults => {
-    console.log("Sending to results page")
     try {
         const results = JSON.parse(testResults);
         if (results.resultUrl) {
+            console.log("Redirecting to results page: ", results.resultUrl);
             document.location.href = results.resultUrl;
         }
     } catch (e) {
@@ -626,26 +646,70 @@ const getSource = (selector, inlineAssets) => {
     return inlineAssets ? inline(selector) : getDom(selector);
 };
 
+const pingTenon = () => {
+    console.log("Pinging Tenon wtih URL ", document.URL);
+
+    return new Promise((onSuccess, reject) => {
+        const r = new XMLHttpRequest();
+       
+        r.onload = function() {
+            if (r.status === 200) {
+                return onSuccess(r.status);
+            }
+            onError(r.responseText);
+        };
+
+        const api = instanceUrl + "/api/ping.php";
+        const url = [{"url": document.URL}];  
+
+        r.open("POST", api);
+        r.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        r.send(JSON.stringify(url));
+    });
+}
+
+let instanceUrl;
+
 /*
  * Respond to the extension button being clicked.
  */
 chrome.runtime.onMessage.addListener((request, sender) => {
+    
     // Ignore if not from extension
     if (sender.tab) {
         return;
     }
 
-    if (request.message && request.message === "TEST_SOURCE") {
-        if (!Object.keys(request.settings).length) {
-            alert("Tenon-Check: The extension is not properly configured. Please visit extension options page to enter configuration details.");
-            return;
-        }
-        getSource("html", request.settings.inline)
-            .then(testSource(request.settings))
-            .then(showResults)
-            .catch(function(e) {
-                alert(`Tenon-Check: Error testing page - ${e}`);
-            });
+    // Make sure extension is configured
+    if (!Object.keys(request.settings).length) {
+        alert("Tenon-Check: The extension is not properly configured. Please visit extension options page to enter configuration details.");
+        return;
     }
+
+    instanceUrl = request.settings.instanceUrl;
+    console.log("Current page ", document.URL);
+
+    // Ping Tenon to see if it can test current page URL, otherwise test source
+    pingTenon()
+    .then(response => {
+      if(response === 200) {
+        testURL(request.settings)
+        .then(showResults)
+        .catch(function(e) {
+            alert(`Tenon-Check: Error testing page - ${e}`);
+        });
+      } else {
+        getSource("html", request.settings.inline)
+        .then(testSource(request.settings))
+        .then(showResults)
+        .catch(function(e) {
+            alert(`Tenon-Check: Error testing page - ${e}`);
+        });
+      }
+    })
+    .catch(error => {
+        console.log(error);
+    });
+   
 });
 
