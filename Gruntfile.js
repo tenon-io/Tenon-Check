@@ -54,6 +54,6 @@
     module.exports = function (grunt) {
         require('load-grunt-tasks')(grunt);
         grunt.initConfig(Config);
-        grunt.registerTask('default', ['eslint', 'babel', 'uglify', 'copy', 'clean']);
+        grunt.registerTask('default', ['eslint', 'babel', 'run:test', 'uglify', 'copy', 'clean']);
     };
 })();
