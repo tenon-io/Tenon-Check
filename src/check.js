@@ -653,8 +653,10 @@ const pingTenon = () => {
         const r = new XMLHttpRequest();
        
         r.onload = function() {
-            if (r.status === 200) {
-                return onSuccess(r.status);
+            const status = JSON.parse(r.response);
+
+            if (status[0].status !== undefined) {
+                return onSuccess(status[0].status);
             }
             onError(r.responseText);
         };
@@ -691,8 +693,8 @@ chrome.runtime.onMessage.addListener((request, sender) => {
 
     // Ping Tenon to see if it can test current page URL, otherwise test source
     pingTenon()
-    .then(response => {
-      if(response === 200) {
+    .then(status => { 
+      if(status) {
         testURL(request.settings)
         .then(showResults)
         .catch(function(e) {
