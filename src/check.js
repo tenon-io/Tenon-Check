@@ -695,7 +695,7 @@ chrome.runtime.onMessage.addListener((request, sender) => {
     pingTenon()
     .then(status => { 
       console.log(status);
-      if(!status) {
+      if(!status || status !== 200) {
         getSource("html", request.settings.inline)
         .then(testSource(request.settings))
         .then(showResults)
