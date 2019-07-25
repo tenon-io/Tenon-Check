@@ -694,15 +694,16 @@ chrome.runtime.onMessage.addListener((request, sender) => {
     // Ping Tenon to see if it can test current page URL, otherwise test source
     pingTenon()
     .then(status => { 
-      if(status) {
-        testURL(request.settings)
+      console.log(status);
+      if(!status) {
+        getSource("html", request.settings.inline)
+        .then(testSource(request.settings))
         .then(showResults)
         .catch(function(e) {
             alert(`Tenon-Check: Error testing page - ${e}`);
         });
       } else {
-        getSource("html", request.settings.inline)
-        .then(testSource(request.settings))
+        testURL(request.settings)
         .then(showResults)
         .catch(function(e) {
             alert(`Tenon-Check: Error testing page - ${e}`);
