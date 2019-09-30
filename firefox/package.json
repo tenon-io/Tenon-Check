@@ -1,0 +1,13 @@
+{
+  "title": "Tenon Check",
+  "name": "tenon-check",
+  "version": "0.9.1",
+  "description": "Allows to check the currently loaded tab against the tenon.io accessibility testing framework.",
+  "main": "index.js",
+  "author": "Marco Zehe",
+  "engines": {
+    "firefox": ">=33.0a1",
+    "fennec": ">=33.0a1"
+  },
+  "license": "MIT"
+}
