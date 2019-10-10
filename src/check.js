@@ -621,11 +621,11 @@ const testURL = settings => {
 }
 
 const showResults = testResults => {
-    try {
+    try {   
         const results = JSON.parse(testResults);
         if (results.resultUrl) {
             console.log("Redirecting to results page: ", results.resultUrl);
-            document.location.href = results.resultUrl;
+            chrome.extension.sendMessage({url: results.resultUrl}, function(){});
         }
     } catch (e) {
         alert("Tenon-Check: Unexpected API response, couldn't parse.");
